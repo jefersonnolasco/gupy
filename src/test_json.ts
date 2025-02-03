@@ -11,11 +11,15 @@ export class TestJson {
     file = null
     jsonData: IDayValue[] = []
     total = 0
-    maxValue = 0
-    minValue = 999999999
-    maxDay = 0
-    minDay = 0
-    average = 0
+    
+    diasFaturamento = 0
+    mediaMensal = 0
+    diasSuperiores = 0
+
+    menorValor = 999999999
+
+    maiorValor = 0
+
 
     constructor() {
         const file = path.resolve(__dirname, 'data/json_data.json')
@@ -35,30 +39,33 @@ export class TestJson {
 
     calculeResume() {
         this.jsonData.forEach(data => {
-            this.total += data.valor
-            if (data.valor > this.maxValue) {
-                this.maxValue = data.valor
-                this.maxDay = data.dia
-            }
-            if (data.valor < this.minValue) {
-                this.minValue = data.valor
-                this.minDay = data.dia
+
+            if (data.valor) {
+                this.diasFaturamento++
+                this.total += data.valor
+                if (data.valor > this.maiorValor) {
+                    this.maiorValor = data.valor
+                }
+                if (data.valor < this.menorValor) {
+                    this.menorValor = data.valor
+                }
             }
         })
 
-        this.average = this.total / this.jsonData.length
+        this.mediaMensal = this.total / this.diasFaturamento
+
+        this.jsonData.forEach(data => {
+            if (data.valor > this.mediaMensal) {
+                this.diasSuperiores++
+            }
+        })
     }
 
     showResume() {
-        console.log(`--------- TEST JSON ---------`)
-        console.log(`Total...: ${this.total}`)
-        console.log(`Average...: ${this.average}`)
-        console.log(`--------`)
-        console.log(`Highest value...: ${this.maxValue}`)
-        console.log(`Highest day...: ${this.maxDay}`)
-        console.log(`--------`)
-        console.log(`Lowest value...: ${this.minValue}`)
-        console.log(`Lowest day...: ${this.minDay}`)
+        console.log(`--------- TEST 3 ---------`)
+        console.log(`Menor Valor Faturamento no Mês...: ${this.menorValor}`)
+        console.log(`Maior Valor Faturamento no Mês...: ${this.maiorValor}`)
+        console.log(`Nr de dias no mês em que faturamento diário foi superior à média mensal...: ${this.diasSuperiores}`)
     }
 
 }
