@@ -4,10 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-
-    "dev": "ts-node src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js"
+    "dev": "npm run copy-data && ts-node src/index.ts",
+    "build": "npm run copy-data && tsc",
+    "start": "node dist/index.js",
+    "copy-data": "cpy src/data/**/* dist/data"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +15,12 @@
   "description": "",
   "devDependencies": {
     "@types/node": "^22.13.0",
+    "cpy-cli": "^5.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "xmldom": "^0.6.0",
+    "xpath": "^0.0.34"
   }
 }
